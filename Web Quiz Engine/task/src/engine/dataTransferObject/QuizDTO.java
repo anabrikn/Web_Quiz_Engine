@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
-public class Quiz {
+public class QuizDTO {
 
-    private static Integer count = 1;
-    private int id;
+    private long id;
 
     @NotNull(message = "Enter title, please")
     @NotEmpty(message = "Title must not be empty")
@@ -24,23 +24,24 @@ public class Quiz {
     private List<String> options = new ArrayList<>();
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    TreeSet<Integer> answer = new TreeSet<>();
+    private Set<Integer> answer = new TreeSet<>();
 
-
-    public Quiz() {
-        this.id = getNextId();
+    public QuizDTO() {
     }
 
-    public Quiz(String title, String text, List<String> options, TreeSet<Integer> answer) {
-        this.id = getNextId();
+    public QuizDTO(String title, String text, List<String> options, Set<Integer> answer) {
         this.title = title;
         this.text = text;
         this.options = options;
-        this.answer = answer;
+        this.answer = answer == null ? new TreeSet<>() : answer;
     }
 
-    public static int getNextId() {
-        return count++;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -68,20 +69,13 @@ public class Quiz {
     }
 
     //@JsonIgnore
-    public TreeSet<Integer> getAnswer() {
+    public Set<Integer> getAnswer() {
         return answer;
     }
 
     //@JsonProperty()
-    public void setAnswer(TreeSet<Integer> answer) {
+    public void setAnswer(Set<Integer> answer) {
         this.answer = answer;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

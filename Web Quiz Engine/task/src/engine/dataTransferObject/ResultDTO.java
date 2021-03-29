@@ -1,11 +1,11 @@
 package engine.dataTransferObject;
 
-public class Result {
+public class ResultDTO {
     private boolean success;
     private String feedback;
 
 
-    public Result(boolean success, String feedback) {
+    public ResultDTO(boolean success, String feedback) {
         this.success = success;
         this.feedback = feedback;
     }
@@ -26,11 +26,11 @@ public class Result {
         this.feedback = feedback;
     }
 
-    public static Result successResult() {
-        return new Result(true, "Congratulations, you're right!");
+    public static ResultDTO successResult() {
+        return new ResultDTO(true, "Congratulations, you're right!");
     }
 
-    public static Result wrongResult() {
-        return new Result(false, "Wrong answer! Please, try again.");
+    public static ResultDTO wrongResult() {
+        return new ResultDTO(false, "Wrong answer! Please, try again.");
     }
 }
