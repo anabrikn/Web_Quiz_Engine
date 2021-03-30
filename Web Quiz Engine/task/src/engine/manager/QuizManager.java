@@ -1,7 +1,7 @@
 package engine.manager;
 
-import engine.dataTransferObject.QuizDTO;
-import engine.dataTransferObject.ResultDTO;
+import engine.dto.QuizDTO;
+import engine.dto.ResultDTO;
 import engine.model.Option;
 import engine.model.Quiz;
 import engine.repository.QuizRepository;
@@ -29,21 +29,21 @@ public class QuizManager {
                         "Quiz not found for this id : " + id));
     }
 
-    public QuizDTO addQuiz(QuizDTO quizDTO) {
+    public QuizDTO addQuizToDB(QuizDTO quizDTO) {
         Quiz q = convertQuizDtoToQuizEntity(quizDTO);
         quizRepository.save(q);
-        return convertQuizToQuizDto(q);
+        return convertQuizEntityToQuizDto(q);
     }
 
     public QuizDTO getQuizDtoById(long id) throws ResponseStatusException {
         Quiz q = findQuizById(id);
-        return convertQuizToQuizDto(q);
+        return convertQuizEntityToQuizDto(q);
     }
 
     public Collection<QuizDTO> getQuizzes() {
         List<Quiz> listQuiz = quizRepository.findAll();
         return listQuiz.stream()
-                .map(this::convertQuizToQuizDto)
+                .map(this::convertQuizEntityToQuizDto)
                 .collect(Collectors.toList());
     }
 
@@ -60,7 +60,7 @@ public class QuizManager {
         }
     }
 
-    public QuizDTO convertQuizToQuizDto(Quiz quiz) {
+    private QuizDTO convertQuizEntityToQuizDto(Quiz quiz) {
         QuizDTO q = new QuizDTO();
 
         q.setId(quiz.getId());
@@ -72,7 +72,7 @@ public class QuizManager {
         return q;
     }
 
-    public Quiz convertQuizDtoToQuizEntity(QuizDTO dto) {
+    private Quiz convertQuizDtoToQuizEntity(QuizDTO dto) {
         Quiz q = new Quiz();
 
         q.setId(dto.getId());
@@ -96,7 +96,6 @@ public class QuizManager {
         return q;
     }
 
-    // метод, который лист Option трансформирует в TreeSet с номерами правильных ответов
     private Set<Integer> getSetAnswersFromOptions(List<Option> list) {
         return list.stream()
                 .filter(Option::isRight)
@@ -104,7 +103,6 @@ public class QuizManager {
                 .collect(Collectors.toCollection(TreeSet::new));
     }
 
-    // метод, который лист Option трансформирует в List с вариантами ответов
     private List<String> getListOptionsFromOptions(List<Option> list) {
         return list.stream()
                 .map(Option::getBody)

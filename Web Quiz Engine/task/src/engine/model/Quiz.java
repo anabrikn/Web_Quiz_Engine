@@ -1,6 +1,5 @@
 package engine.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -8,7 +7,6 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity(name = "quiz")
 public class Quiz implements Serializable {

@@ -1,4 +1,4 @@
-package engine.dataTransferObject;
+package engine.dto;
 
 import java.util.Set;
 import java.util.TreeSet;

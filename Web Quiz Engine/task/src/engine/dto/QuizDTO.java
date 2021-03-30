@@ -1,4 +1,4 @@
-package engine.dataTransferObject;
+package engine.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

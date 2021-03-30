@@ -1,4 +1,4 @@
-package engine.dataTransferObject;
+package engine.dto;
 
 public class ResultDTO {
     private boolean success;

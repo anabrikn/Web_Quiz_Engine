@@ -1,8 +1,7 @@
 package engine.controller;
 
-import engine.dataTransferObject.ResultDTO;
-import engine.dataTransferObject.QuizDTO;
-import engine.dataTransferObject.AnswersDTO;
+import engine.dto.ResultDTO;
+import engine.dto.QuizDTO;
 import engine.manager.QuizManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ public class WebQuizEngineController {
 
     @PostMapping(path = "/api/quizzes", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public QuizDTO addQuiz(@Valid @RequestBody QuizDTO quiz) {
-        return manager.addQuiz(quiz);
+        return manager.addQuizToDB(quiz);
     }
 
     @GetMapping(path = "/api/quizzes/{id}", produces = APPLICATION_JSON_VALUE)
