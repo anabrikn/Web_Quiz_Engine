@@ -1,3 +1,5 @@
+# Web Quiz Engine
+
 Project on hyperskill: https://hyperskill.org/projects/91
 
 In this project, you will develop a multi-user web service for creating and solving quizzes using REST API, 
