@@ -1,4 +1,4 @@
-package engine.manager;
+package engine.service;
 
 import engine.dto.QuizDTO;
 import engine.dto.ResultDTO;
@@ -14,19 +14,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class QuizManager {
+public class QuizService {
 
-    private QuizRepository quizRepository;
+    private final QuizRepository quizRepository;
 
     @Autowired
-    public QuizManager(QuizRepository quizRepository) {
+    public QuizService(QuizRepository quizRepository) {
         this.quizRepository = quizRepository;
-    }
-
-    public Quiz findQuizById(long id) {
-        return quizRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Quiz not found for this id : " + id));
     }
 
     public QuizDTO addQuizToDB(QuizDTO quizDTO) {
@@ -35,16 +29,16 @@ public class QuizManager {
         return convertQuizEntityToQuizDto(q);
     }
 
-    public QuizDTO getQuizDtoById(long id) throws ResponseStatusException {
-        Quiz q = findQuizById(id);
-        return convertQuizEntityToQuizDto(q);
-    }
-
     public Collection<QuizDTO> getQuizzes() {
         List<Quiz> listQuiz = quizRepository.findAll();
         return listQuiz.stream()
                 .map(this::convertQuizEntityToQuizDto)
                 .collect(Collectors.toList());
+    }
+
+    public QuizDTO getQuizDtoById(long id) throws ResponseStatusException {
+        Quiz q = findQuizById(id);
+        return convertQuizEntityToQuizDto(q);
     }
 
     public ResultDTO solveQuiz(long id, TreeSet<Integer> answers) {
@@ -58,6 +52,12 @@ public class QuizManager {
         } else {
             return ResultDTO.wrongResult();
         }
+    }
+
+    private Quiz findQuizById(long id) {
+        return quizRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Quiz not found for this id : " + id));
     }
 
     private QuizDTO convertQuizEntityToQuizDto(Quiz quiz) {
